@@ -2,10 +2,18 @@ package handler
 
 import (
 	"encoding/json"
+	"filestore-server/common"
+	"filestore-server/config"
 	"filestore-server/db"
 	"filestore-server/meta"
+	"filestore-server/mq"
+	"filestore-server/store/ceph"
+	_ "filestore-server/store/ceph"
+	"filestore-server/store/oss"
 	"filestore-server/util"
 	"fmt"
+	"gopkg.in/amz.v1/s3"
+	_ "gopkg.in/amz.v1/s3"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -57,6 +65,33 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 
 		newFile.Seek(0, 0)
 		fileMeta.FileSha1 = util.FileSha1(newFile)
+
+
+		//ceph
+		if config.CurrentStoreType == common.StoreCeph {
+			newFile.Seek(0, 0)
+			data, _ := ioutil.ReadAll(newFile)
+
+			bucket := ceph.GetCephBucket("userfile")
+			cephPath := "=/ceph/" + fileMeta.FileSha1
+			bucket.Put(cephPath, data, "octet-stream", s3.PublicRead)
+			fileMeta.Location = cephPath
+		} else if config.CurrentStoreType == common.StoreOSS {
+			ossPath := "oss/" + fileMeta.FileSha1
+
+			data := mq.TransferData{
+				FileHash:      fileMeta.FileSha1,
+				CurLocation:   fileMeta.Location,
+				DestLocation:  ossPath,
+				DestStoreType: common.StoreOSS,
+			}
+			pubData, _ := json.Marshal(data)
+			suc := mq.Publish(config.TransExchangeName, config.TransOSSRoutingKey, pubData)
+			if !suc {
+				//TODO:加入重拾起发送消息逻辑
+			}
+		}
+
 		//meta.UpdateFileMeta(fileMeta)
 		_ = meta.UpdateFileMetaDB(fileMeta)
 
@@ -228,4 +263,14 @@ func TryFastUploadHandler(w http.ResponseWriter, r *http.Request)  {
 		return
 	}
 
+}
+
+func DownloadURLHandler(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+
+	filehash := r.Form.Get("filehash")
+
+	row, _ := db.GetFileMeta(filehash)
+	signedURL := oss.DownloadURL(row.FileAddr.String)
+	w.Write([]byte(signedURL))
 }

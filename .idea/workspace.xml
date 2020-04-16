@@ -2,25 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="06b9c678-0cc6-4589-b4e1-3869f5b2e3e9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/file.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/mysql/conn.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/user.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/userfile.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/doc/table.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handler/auth.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handler/user.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/avatar.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/auth.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/view/home.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/view/signin.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/view/signup.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/resp.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cache/redis/conn.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/store.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/ceph.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/db.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/oss.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/rabbitmq.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/service.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/store.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/handler/muupload.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mq/consumer.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mq/define.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mq/producer.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/route/router.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/service/transfer/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/store/ceph/ceph_conn.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/store/oss/oss_conn.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/test_ceph.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/test_mpupload.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/file.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/file.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handler/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meta/filemeta.go" beforeDir="false" afterPath="$PROJECT_DIR$/meta/filemeta.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/upload/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,20 +76,51 @@
     <property name="configurable.Project.GOPATH.is.expanded" value="true" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/static" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/service/upload" />
+      <recent name="$PROJECT_DIR$/test" />
+      <recent name="$PROJECT_DIR$/handler" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/store/ceph" />
       <recent name="$PROJECT_DIR$/static" />
       <recent name="$PROJECT_DIR$/util" />
       <recent name="$PROJECT_DIR$/static/view" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/handler" />
-    </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Go Build.go build filestore-server/service/transfer">
+    <configuration name="go build filestore-server/service/transfer" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="filestore-server" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$/service/transfer/main.go" />
+      <package value="filestore-server/service/transfer" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build filestore-server/service/upload" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="filestore-server" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$/service/upload/main.go" />
+      <package value="filestore-server/service/upload" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build filestore-server/test" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="filestore-server" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$/test/test_mpupload.go" />
+      <package value="filestore-server/test" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="filestore-server" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -95,7 +131,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build filestore-server/service/transfer" />
+        <item itemvalue="Go Build.go build filestore-server/service/upload" />
         <item itemvalue="Go Build.go build main.go" />
+        <item itemvalue="Go Build.go build filestore-server/test" />
       </list>
     </recent_temporary>
   </component>
@@ -126,22 +165,26 @@
       <screen x="35" y="23" width="1405" height="877" />
     </state>
     <state x="446" y="124" key="#go_build_main.go/35.23.1405.877@35.23.1405.877" timestamp="1586724190335" />
-    <state width="1363" height="229" key="GridCell.Tab.0.bottom" timestamp="1586781603524">
+    <state width="1363" height="249" key="GridCell.Tab.0.bottom" timestamp="1586946580569">
       <screen x="35" y="23" width="1405" height="877" />
     </state>
-    <state width="1363" height="229" key="GridCell.Tab.0.bottom/35.23.1405.877@35.23.1405.877" timestamp="1586781603524" />
-    <state width="1363" height="229" key="GridCell.Tab.0.center" timestamp="1586781603524">
+    <state width="1363" height="249" key="GridCell.Tab.0.bottom/33.23.1407.877@33.23.1407.877" timestamp="1586840545293" />
+    <state width="1363" height="249" key="GridCell.Tab.0.bottom/35.23.1405.877@35.23.1405.877" timestamp="1586946580569" />
+    <state width="1363" height="249" key="GridCell.Tab.0.center" timestamp="1586946580568">
       <screen x="35" y="23" width="1405" height="877" />
     </state>
-    <state width="1363" height="229" key="GridCell.Tab.0.center/35.23.1405.877@35.23.1405.877" timestamp="1586781603524" />
-    <state width="1363" height="229" key="GridCell.Tab.0.left" timestamp="1586781603523">
+    <state width="1363" height="249" key="GridCell.Tab.0.center/33.23.1407.877@33.23.1407.877" timestamp="1586840545292" />
+    <state width="1363" height="249" key="GridCell.Tab.0.center/35.23.1405.877@35.23.1405.877" timestamp="1586946580568" />
+    <state width="1363" height="249" key="GridCell.Tab.0.left" timestamp="1586946580567">
       <screen x="35" y="23" width="1405" height="877" />
     </state>
-    <state width="1363" height="229" key="GridCell.Tab.0.left/35.23.1405.877@35.23.1405.877" timestamp="1586781603523" />
-    <state width="1363" height="229" key="GridCell.Tab.0.right" timestamp="1586781603524">
+    <state width="1363" height="249" key="GridCell.Tab.0.left/33.23.1407.877@33.23.1407.877" timestamp="1586840545291" />
+    <state width="1363" height="249" key="GridCell.Tab.0.left/35.23.1405.877@35.23.1405.877" timestamp="1586946580567" />
+    <state width="1363" height="249" key="GridCell.Tab.0.right" timestamp="1586946580568">
       <screen x="35" y="23" width="1405" height="877" />
     </state>
-    <state width="1363" height="229" key="GridCell.Tab.0.right/35.23.1405.877@35.23.1405.877" timestamp="1586781603524" />
+    <state width="1363" height="249" key="GridCell.Tab.0.right/33.23.1407.877@33.23.1407.877" timestamp="1586840545293" />
+    <state width="1363" height="249" key="GridCell.Tab.0.right/35.23.1405.877@35.23.1405.877" timestamp="1586946580568" />
     <state x="246" y="100" key="SettingsEditor" timestamp="1586714579702">
       <screen x="35" y="23" width="1405" height="877" />
     </state>
