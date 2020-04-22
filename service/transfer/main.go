@@ -1,56 +1,65 @@
 package main
 
 import (
-	"bufio"
-	"encoding/json"
+	"filestore-server/common"
 	"filestore-server/config"
-	"filestore-server/db"
 	"filestore-server/mq"
-	"filestore-server/store/oss"
+	dbproxy "filestore-server/service/dbproxy/client"
+	"filestore-server/service/transfer/process"
 	"fmt"
+	"github.com/micro/cli"
+	"github.com/micro/go-micro"
+	_ "github.com/micro/go-plugins/registry/consul"
 	"log"
-	"os"
+	"time"
 )
 
-//处理文件的转移的真正逻辑
-func ProcessTransfer(msg []byte) bool {
-	pubData := mq.TransferData{}
-	err := json.Unmarshal(msg, &pubData)
-	if err != nil {
-		log.Println(err.Error())
-		return false
-	}
-	fmt.Printf("%+v\n", pubData)
-
-	filed, err := os.Open(pubData.CurLocation)
-	if err != nil {
-		log.Println(err.Error())
-		return false
-	}
-
-	err = oss.Bucket().PutObject(
-		pubData.DestLocation,
-		bufio.NewReader(filed),
+func startRPCService() {
+	service := micro.NewService(
+		micro.Name("go.micro.service.transfer"), // 服务名称
+		micro.RegisterTTL(time.Second*10),       // TTL指定从上一次心跳间隔起，超过这个时间服务会被服务发现移除
+		micro.RegisterInterval(time.Second*5),   // 让服务在指定时间内重新注册，保持TTL获取的注册时间有效
+		micro.Flags(common.CustomFlags...),
 	)
-	if err != nil {
-		log.Println(err.Error())
-		return false
-	}
 
-	suc := db.UpdateFileLocation(pubData.FileHash, pubData.DestLocation)
-	if !suc {
-		return false
-	}
+	service.Init(
+		micro.Action(func(c *cli.Context) {
+			// 检查是否指定mqhost
+			mqhost := c.String("mqhost")
+			if len(mqhost) > 0 {
+				log.Println("custom mq address: " + mqhost)
+				mq.UpdateRabbitHost(mqhost)
+			}
+		}),
+	)
 
-	return true
+	// 初始化dbproxy client
+	dbproxy.Init(service)
+
+	if err := service.Run();err != nil {
+		fmt.Println(err)
+	}
 }
 
-func main() {
-	log.Println("开始监听转移任务队列...")
+func startTransferService() {
+	if !config.AsyncTransferEnable {
+		log.Println("异步转移文件功能目前被禁用，请检查相关配置")
+		return
+	}
+	log.Println("文件转移服务启动中，开始监听转移任务队列...")
+
+	// 初始化mq client
+	mq.Init()
 
 	mq.StartConsume(
 		config.TransOSSQueueName,
 		"transfer_oss",
-		ProcessTransfer,
-		)
+		process.Transfer,
+	)
+}
+
+func main() {
+	go startTransferService()
+
+	startRPCService()
 }

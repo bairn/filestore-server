@@ -1,6 +1,8 @@
 package mq
 
-import "log"
+import (
+	"log"
+)
 
 var done chan bool
 
